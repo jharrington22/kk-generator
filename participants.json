@@ -1,0 +1,29 @@
+{ "participant_couples": {
+  "couple_a": [
+    {
+      "name": "John",
+      "email": "john@example.com"
+    },
+    {
+      "name": "Betty",
+      "email": "betty@example.com"
+    }
+  ],
+  "couple_b": [
+    {
+      "name": "Mary",
+      "email": "mary@example.com"
+    },
+    {
+      "name": "Doug",
+      "email": "doug@example.com"
+    }
+  ]
+  },
+  "participants": [
+    {
+      "name": "Bruce",
+      "email": "bruce@example.com"
+    }
+  ]
+}
