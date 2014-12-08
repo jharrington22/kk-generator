@@ -44,10 +44,10 @@ def return_partner(name, json_file):
     partner = None
     for couples in json_file["participant_couples"]:
         if name == json_file["participant_couples"][couples][0]["name"]:
-            print("%s partner is %s" % (name, json_file["participant_couples"][couples][1]["name"]))
+            #print("%s partner is %s" % (name, json_file["participant_couples"][couples][1]["name"]))
             return json_file["participant_couples"][couples][1]["name"]
         elif name == json_file["participant_couples"][couples][1]["name"]:
-            print("%s partner is %s" % (name, json_file["participant_couples"][couples][0]["name"]))
+            #print("%s partner is %s" % (name, json_file["participant_couples"][couples][0]["name"]))
             return json_file["participant_couples"][couples][0]["name"]
     return partner
 
@@ -64,17 +64,12 @@ def main():
     else:
         print("Error: No participants file found!")
 
-    #print create_list_of_everyone(participants_json)
-
-    #print("Partner of James is: %s" % return_partner("James", participants_json))
-
     everyone = tuple(create_list_of_everyone(participants_json))
 
     def selection(givers, receivers, name, partner=None):
         """Removes partner from _list and makes random selection"""
         kk = None
         _receivers = receivers
-        print _receivers
         def get_kk():
             if len(_receivers) <= 1:
                 try:
@@ -86,27 +81,15 @@ def main():
                 kk = _receivers[random.randrange(0, len(_receivers))]
             return kk
         if partner:
-            print("removed: %s" % partner)
-            try:
-                print _receivers
-                if partner in _receivers:
-                    print("%s is in list.. shouldn't get ValueError" % partner)
+            if partner in _receivers:
+                #print("%s is in list.. shouldn't get ValueError" % partner)
                 _receivers.remove(partner)
-            except ValueError as e:
-                print("Value error")
-                print e
-                print("%s is not in receivers list: %s" % (name, partner))
-                print _receivers
-            kk = get_kk()
+                #print("removed: %s" % partner)
+                kk = get_kk()
+                _receivers.append(partner)
+                #print("added: %s" % partner)
         else:
             kk = get_kk()
-        # Re add partner
-        if partner:
-            _receivers.append(partner)
-            print("added: %s" % partner)
-            print(_receivers)
-        #while kk in complete:
-        #    kk = get_kk()
         return kk, _receivers
 
     people = list(everyone[:])
@@ -117,9 +100,9 @@ def main():
         error_status = False
         for person in everyone:
             # Get current persons partner
-            print("Should be checking partner for: %s" % person)
+            #print("Should be checking partner for: %s" % person)
             partner = return_partner(person, participants_json)
-            print("%s partner is: %s" % (person, partner))
+            #print("%s partner is %s" % (person, partner))
             # If person has a partner remove them from the selection
             if partner:
                 kk, list_of_r = selection(list_of_g, list_of_r, person, partner)
@@ -147,8 +130,11 @@ def main():
                 #print list_of_r
                 kk_dict[person] = kk
             elif kk == "Error":
+                print("kk error")
                 error_status = True
                 return kk_dict, error_status
+            else:
+                print("something %s %s" % (person, kk))
         return kk_dict, error_status
     kk_dict, error_status = generate(everyone, list_of_r, list_of_g)
 
